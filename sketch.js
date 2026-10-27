@@ -1,22 +1,21 @@
 const slidesData = [
-    { title: "Relevo generacional: la ventaja que nadie está aprovechando.", sub: "INTRODUCCIÓN", img: "" }, // 1
-    { title: "¿un gran auditorio solo para hacer grados?", sub: "EL PARADIGMA", img: "assets/FOTO 1.jpg" }, // 2
-    { title: "Los eventos no llegaron a la Universidad. La Universidad decidió encontrarse con el mundo.", sub: "TRANSICIÓN", img: "" }, // 3
-    { title: "Academia + Industria + Ciudad", sub: "CONVERGENCIA", img: "assets/FORUM_NOCHE.jpg" }, // 4
-    { title: "Los eventos nunca fueron el objetivo. El impacto sí.", sub: "PROPÓSITO", img: "assets/FOTO 3.jpg" }, // 5
-    { title: "Un evento trae personas. Una comunidad trae transformación.", sub: "COMUNIDAD", img: "" }, // 6
-    { title: "El talento crece a la velocidad de la confianza.", sub: "CONFIANZA", img: "" }, // 7
-    { title: "La experiencia construye el camino. Las nuevas generaciones descubren nuevas rutas.", sub: "RUTAS", img: "assets/IMG_1819.jpg" }, // 8
-    { title: "Una visión. Dos generaciones.", sub: "INTEGRACIÓN", img: "" }, // 9
-    { title: "El crecimiento no ocurre cuando una generación reemplaza a otra. Ocurre cuando trabajan juntas.", sub: "TRABAJO CONJUNTO", img: "assets/FORUM_DIA.jpg" }, // 10
-    { title: "Los jóvenes no son el futuro. Son el presente que muchas organizaciones aún no ven.", sub: "PRESENTE", img: "" }, // 11
-    { title: "El futuro no se hereda. Se construye.", sub: "FUTURO", img: "assets/MG_7563.jpg" }, // 12
-    { title: "@centrodeeventosupb", sub: "CONTINUIDAD", img: "qr" } // 13
+    { title: "Relevo generacional: la ventaja que nadie está aprovechando.", sub: "INTRODUCCIÓN", img: "" },
+    { title: "¿un gran auditorio solo para hacer grados?", sub: "EL PARADIGMA", img: "assets/FOTO%201.jpg" },
+    { title: "Los eventos no llegaron a la Universidad. La Universidad decidió encontrarse con el mundo.", sub: "TRANSICIÓN", img: "" },
+    { title: "Academia + Industria + Ciudad", sub: "CONVERGENCIA", img: "assets/FORUM_NOCHE.jpg" },
+    { title: "Los eventos nunca fueron el objetivo. El impacto sí.", sub: "PROPÓSITO", img: "assets/FOTO%203.jpg" },
+    { title: "Un evento trae personas. Una comunidad trae transformación.", sub: "COMUNIDAD", img: "" },
+    { title: "El talento crece a la velocidad de la confianza.", sub: "CONFIANZA", img: "" },
+    { title: "La experiencia construye el camino. Las nuevas generaciones descubren nuevas rutas.", sub: "RUTAS", img: "assets/IMG_1819.jpg" },
+    { title: "Una visión. Dos generaciones.", sub: "INTEGRACIÓN", img: "" },
+    { title: "El crecimiento no ocurre cuando una generación reemplaza a otra. Ocurre cuando trabajan juntas.", sub: "TRABAJO CONJUNTO", img: "assets/FORUM_DIA.jpg" },
+    { title: "Los jóvenes no son el futuro. Son el presente que muchas organizaciones aún no ven.", sub: "PRESENTE", img: "" },
+    { title: "El futuro no se hereda. Se construye.", sub: "FUTURO", img: "assets/MG_7563.jpg" },
+    { title: "@centrodeeventosupb", sub: "CONTINUIDAD", img: "qr" }
 ];
 
 let slideActual = 0;
 let particulas = [];
-let redEnlaces = [];
 let factorExpansion = 1;
 let modoFisica = 'orbital';
 
@@ -25,8 +24,7 @@ function setup() {
     canvas.position(0, 0);
     canvas.style('z-index', '1');
 
-    // Inicializar 350 partículas interactivas
-    for (let i = 0; i < 350; i++) {
+    for (let i = 0; i < 300; i++) {
         particulas.push(new ParticulaSimulacion());
     }
 
@@ -36,26 +34,23 @@ function setup() {
 }
 
 function draw() {
-    background(5, 5, 8, 90); // Fondo con breve rastro (motion blur)
+    background(5, 5, 8, 90);
 
-    // El mouse afecta el centro gravitacional del arte visual
-    let centroX = width * 0.5 + (mouseX - width * 0.5) * 0.1;
-    let centroY = height * 0.5 + (mouseY - height * 0.5) * 0.1;
+    let centroX = width * 0.5 + (mouseX - width * 0.5) * 0.05;
+    let centroY = height * 0.5 + (mouseY - height * 0.5) * 0.05;
 
-    // Actualizar y dibujar partículas
     for (let i = 0; i < particulas.length; i++) {
         let p = particulas[i];
         p.actualizar(centroX, centroY);
         p.dibujar();
 
-        // Conectar partículas cercanas si estamos en modo comunidad/red
         if (modoFisica === 'red') {
             for (let j = i + 1; j < particulas.length; j++) {
                 let p2 = particulas[j];
                 let d = dist(p.x, p.y, p2.x, p2.y);
-                if (d < 90) {
-                    stroke(0, 229, 255, map(d, 0, 90, 150, 0));
-                    strokeWeight(0.8);
+                if (d < 80) {
+                    stroke(0, 229, 255, map(d, 0, 80, 120, 0));
+                    strokeWeight(0.6);
                     line(p.x, p.y, p2.x, p2.y);
                 }
             }
@@ -65,14 +60,14 @@ function draw() {
 
 class ParticulaSimulacion {
     constructor() {
-        this.radioBase = random(30, width * 0.45);
+        this.radioBase = random(40, width * 0.4);
         this.angulo = random(TWO_PI);
-        this.velocidad = random(0.002, 0.012);
-        this.zOffset = random(-100, 100);
-        this.tamano = random(1.5, 4);
+        this.velocidad = random(0.002, 0.01);
+        this.zOffset = random(-80, 80);
+        this.tamano = random(2, 4);
         this.x = 0;
         this.y = 0;
-        this.esJoven = random(1) > 0.4; // Tipos de generación
+        this.esJoven = random(1) > 0.4;
     }
 
     actualizar(cX, cY) {
@@ -83,28 +78,20 @@ class ParticulaSimulacion {
             this.x = cX + cos(this.angulo) * rActual;
             this.y = cY + sin(this.angulo) * (rActual * 0.3) + this.zOffset;
         } else if (modoFisica === 'expansion') {
-            this.x = cX + cos(this.angulo) * (rActual * 1.5);
-            this.y = cY + sin(this.angulo) * (rActual * 1.2);
+            this.x = cX + cos(this.angulo) * (rActual * 1.4);
+            this.y = cY + sin(this.angulo) * (rActual * 1.1);
         } else if (modoFisica === 'red') {
             this.x = cX + cos(this.angulo + frameCount * 0.002) * rActual;
-            this.y = cY + sin(this.angulo) * (rActual * 0.6);
-        }
-
-        // Reacción directa al mover el mouse cerca
-        let dMouse = dist(mouseX, mouseY, this.x, this.y);
-        if (dMouse < 100) {
-            let fuerza = map(dMouse, 0, 100, 15, 0);
-            this.x += (this.x - mouseX) * 0.1;
-            this.y += (this.y - mouseY) * 0.1;
+            this.y = cY + sin(this.angulo) * (rActual * 0.5);
         }
     }
 
     dibujar() {
         noStroke();
         if (this.esJoven) {
-            fill(0, 229, 255, 200); // Cian (Nuevas generaciones)
+            fill(0, 229, 255, 200);
         } else {
-            fill(255, 64, 129, 180); // Rosado/Magenta (Experiencia)
+            fill(255, 64, 129, 180);
         }
         circle(this.x, this.y, this.tamano);
     }
@@ -127,34 +114,33 @@ function actualizarUI() {
     } else if (data.img !== "") {
         imgEl.src = data.img;
         imgEl.style.display = "block";
-        imgEl.onerror = function() { this.style.display = 'none'; }; // Si la foto falla, no interrumpe el canvas
+        imgEl.onerror = function() { this.style.display = 'none'; };
         qrEl.style.display = "none";
     } else {
         imgEl.style.display = "none";
         qrEl.style.display = "none";
     }
 
-    // Actualizar estados del sistema gráfico según el guion
     switch (slideActual) {
-        case 1: // Auditorio estático
+        case 1:
             modoFisica = 'orbital';
             factorExpansion = 1.6;
             break;
-        case 3: // Academia + Industria + Ciudad
+        case 3:
             modoFisica = 'expansion';
             factorExpansion = 1.1;
             break;
-        case 5: // Comunidad
-        case 6: // Confianza
+        case 5:
+        case 6:
             modoFisica = 'red';
             factorExpansion = 0.9;
             break;
-        case 7: // Rutas
+        case 7:
             modoFisica = 'vortice';
             factorExpansion = 1.4;
             break;
-        case 9: // Trabajo conjunto
-        case 11: // Construcción
+        case 9:
+        case 11:
             modoFisica = 'red';
             factorExpansion = 0.7;
             break;
@@ -164,7 +150,6 @@ function actualizarUI() {
             break;
     }
 
-    // Actualizar dots
     let dots = document.querySelectorAll('.dot');
     dots.forEach((dot, index) => {
         dot.className = index === slideActual ? 'dot active' : 'dot';
@@ -173,7 +158,6 @@ function actualizarUI() {
 
 function configurarEventosUI() {
     document.getElementById('btn-next').onclick = (e) => {
-        e.stopPropagation();
         if (slideActual < slidesData.length - 1) {
             slideActual++;
             actualizarUI();
@@ -181,7 +165,6 @@ function configurarEventosUI() {
     };
 
     document.getElementById('btn-prev').onclick = (e) => {
-        e.stopPropagation();
         if (slideActual > 0) {
             slideActual--;
             actualizarUI();
