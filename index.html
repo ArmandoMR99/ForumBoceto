@@ -3,36 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relevo Generacional - Fórum UPB</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+    <title>Relevo generacional - Fórum UPB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Capa 0: arte generativo (p5.js se monta aquí) -->
+    <div id="lienzo" aria-hidden="true"></div>
+
+    <!-- Capa 1: interfaz. Siempre por encima del canvas -->
     <div id="ui-layer">
         <header>
             <div class="logos">
-                <img src="Assets/Logo%2090.png" alt="90 Años UPB" id="logo-90">
+                <img src="Assets/Logo%2090.png" alt="90 años UPB" id="logo-90">
                 <img src="Assets/Logo%20UPB.png" alt="UPB" id="logo-upb">
             </div>
             <div class="counter" id="slide-counter">01 / 13</div>
         </header>
 
-        <main>
+        <main id="contenido">
             <div class="text-column">
-                <p id="slide-subtitle">INTRODUCCIÓN</p>
-                <h1 id="slide-title">Relevo generacional: la ventaja que nadie está aprovechando.</h1>
+                <p id="slide-subtitle"></p>
+                <h1 id="slide-title"></h1>
             </div>
-            
+
             <div class="image-column">
-                <img id="slide-image" src="" alt="Fotografía de apoyo" style="display: none;">
-                
-                <div id="qr-container" style="display: none;">
+                <img id="slide-image" src="" alt="" hidden>
+
+                <div id="qr-container" hidden>
                     <div class="qr-box">
-                        <div class="qr-placeholder">QR MEMORIAS</div>
+                        <div class="qr-placeholder">QR memorias</div>
                         <span>Memorias</span>
                     </div>
                     <div class="qr-box">
-                        <div class="qr-placeholder">QR REDES</div>
+                        <div class="qr-placeholder">QR redes</div>
                         <span>@centrodeeventosupb</span>
                     </div>
                 </div>
@@ -41,15 +48,14 @@
 
         <footer>
             <div class="nav-controls">
-                <button id="btn-prev" type="button">&#8592;</button>
+                <button id="btn-prev" class="nav-btn" type="button" aria-label="Anterior">&#8592;</button>
                 <div id="nav-dots"></div>
-                <button id="btn-next" type="button">&#8594;</button>
+                <button id="btn-next" class="nav-btn" type="button" aria-label="Siguiente">&#8594;</button>
             </div>
-            <div class="hints">
-                Navegación: Flecha Derecha / Espacio &#8594; | Flecha Izquierda &#8592; | F: Pantalla Completa
-            </div>
+            <div class="hints">Flecha derecha o espacio: avanzar &nbsp;|&nbsp; Flecha izquierda: volver &nbsp;|&nbsp; F: pantalla completa</div>
         </footer>
     </div>
+
     <script src="sketch.js"></script>
 </body>
 </html>
