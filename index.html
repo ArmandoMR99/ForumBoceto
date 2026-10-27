@@ -1,16 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relevo Geracional - Fórum</title>
+    <title>Relevo Generacional - Fórum UPB</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Interfaz de Usuario superpuesta al Canvas -->
     <div id="ui-layer">
-        <p id="slide-text"></p>
+        
+        <!-- Header: Logos y Contador -->
+        <header>
+            <div class="logos">
+                <!-- Reemplaza con tu logo -->
+                <img src="assets/logo_upb.png" alt="UPB Fórum" id="logo-main"> 
+            </div>
+            <div class="counter" id="slide-counter">01 / 13</div>
+        </header>
+
+        <!-- Contenido Principal: Textos a la izq, Imágenes a la der -->
+        <main>
+            <div class="text-column">
+                <p id="slide-subtitle">INTRODUCCIÓN</p>
+                <h1 id="slide-title">Relevo generacional: la ventaja que nadie está aprovechando.</h1>
+            </div>
+            
+            <div class="image-column">
+                <img id="slide-image" src="" alt="Imagen de apoyo" style="display: none;">
+                
+                <!-- Contenedor QR para el slide final -->
+                <div id="qr-container" style="display: none;">
+                    <div class="qr-box">
+                        <img src="assets/qr_memorias.png" alt="QR Memorias">
+                        <span>Memorias</span>
+                    </div>
+                    <div class="qr-box">
+                        <img src="assets/qr_redes.png" alt="QR Redes">
+                        <span>@centrodeeventosupb</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer: Controles y Pistas -->
+        <footer>
+            <div class="nav-controls">
+                <button id="btn-prev">&lt;</button>
+                <div id="nav-dots"></div>
+                <button id="btn-next">&gt;</button>
+            </div>
+            <div class="hints">
+                Espacio / ➔ avanzar • ⬅ volver • F fullscreen
+            </div>
+        </footer>
     </div>
+
     <script src="sketch.js"></script>
 </body>
 </html>
