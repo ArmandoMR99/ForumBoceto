@@ -34,7 +34,7 @@ canvas {
     flex-direction: column;
     justify-content: space-between;
     padding: 40px 60px;
-    pointer-events: none; /* Permite clics al canvas */
+    pointer-events: none;
 }
 
 header { 
@@ -43,9 +43,22 @@ header {
     align-items: center; 
 }
 
-#logo-main { 
-    height: 50px; 
+.logos {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#logo-90 { 
+    height: 60px; 
     width: auto;
+    filter: brightness(0) invert(1); /* Convierte el logo negro a blanco para el fondo oscuro */
+}
+
+#logo-upb { 
+    height: 45px; 
+    width: auto;
+    filter: brightness(0) invert(1); /* Convierte el logo negro a blanco para el fondo oscuro */
 }
 
 .counter { 
@@ -77,7 +90,7 @@ main {
 }
 
 #slide-title {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     line-height: 1.15;
     margin: 0;
     font-weight: 900;
@@ -99,7 +112,6 @@ main {
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 25px 50px rgba(0,0,0,0.9);
-    transition: opacity 0.4s ease;
 }
 
 #qr-container { 
@@ -150,7 +162,7 @@ footer {
 }
 
 button {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
     color: #ffffff;
     width: 48px; 
@@ -176,8 +188,8 @@ button:hover {
 }
 
 .dot { 
-    width: 6px; 
-    height: 6px; 
+    width: 8px; 
+    height: 8px; 
     background: rgba(255,255,255,0.2); 
     border-radius: 50%; 
     transition: all 0.3s ease;
