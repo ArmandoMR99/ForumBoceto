@@ -11,30 +11,34 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #050508;
+    background-color: #050508; /* Fondo muy oscuro, casi negro */
     color: #ffffff;
     font-family: 'Inter', sans-serif;
 }
 
+/* El lienzo generativo queda estrictamente en el fondo absoluto */
 canvas {
-    position: absolute;
+    position: fixed !important;
     top: 0;
     left: 0;
-    z-index: 1; /* El lienzo generativo permanece estrictamente al fondo */
+    width: 100vw;
+    height: 100vh;
+    z-index: -1 !important; 
 }
 
+/* La interfaz flota siempre por encima */
 #ui-layer {
-    position: absolute;
+    position: fixed !important;
     top: 0; 
     left: 0; 
     width: 100vw; 
     height: 100vh;
-    z-index: 10; /* La interfaz con textos e imágenes flota por encima */
+    z-index: 100 !important; 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 50px 70px;
-    pointer-events: none;
+    pointer-events: none; /* Permite que el fondo interactúe si fuera necesario */
 }
 
 header { 
@@ -52,7 +56,7 @@ header {
 #logo-90 { 
     height: 65px; 
     width: auto;
-    filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1); /* Pone los logos en blanco */
 }
 
 #logo-upb { 
@@ -81,7 +85,7 @@ main {
 }
 
 #slide-subtitle {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 5px;
     text-transform: uppercase;
@@ -94,8 +98,8 @@ main {
     line-height: 1.15;
     margin: 0;
     font-weight: 900;
-    color: #ffffff;
-    text-shadow: 0 10px 40px rgba(0,0,0,0.95);
+    color: #ffffff !important;
+    text-shadow: 0 4px 25px rgba(0,0,0,1); /* Sombra fuerte para legibilidad perfecta */
 }
 
 .image-column { 
@@ -111,7 +115,7 @@ main {
     max-height: 52vh;
     object-fit: cover;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 30px 60px rgba(0,0,0,0.95);
 }
 
@@ -121,8 +125,8 @@ main {
 }
 
 .qr-box {
-    background: rgba(15, 15, 25, 0.8);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(15, 15, 25, 0.9);
+    border: 1px solid rgba(255,255,255,0.2);
     padding: 20px;
     border-radius: 16px;
     text-align: center;
@@ -137,7 +141,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 900;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -145,7 +149,7 @@ main {
 
 .qr-box span { 
     display: block; 
-    font-size: 12px; 
+    font-size: 13px; 
     color: #ffffff;
     font-weight: 700;
 }
@@ -164,8 +168,8 @@ footer {
 }
 
 button {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.4);
     color: #ffffff;
     width: 48px; 
     height: 48px;
@@ -193,7 +197,7 @@ button:hover {
 .dot { 
     width: 8px; 
     height: 8px; 
-    background: rgba(255,255,255,0.25); 
+    background: rgba(255,255,255,0.3); 
     border-radius: 50%; 
     transition: all 0.3s ease;
     cursor: pointer;
@@ -207,6 +211,6 @@ button:hover {
 
 .hints { 
     font-size: 12px; 
-    color: #888888; 
+    color: #aaaaaa; 
     font-weight: 700;
 }
