@@ -8,10 +8,10 @@
 const CONFIG = {
     // Mantener en sincronía con las variables :root de style.css
     paleta: {
-        fondo: [13, 24, 21],     // bosque nocturno
-        hueso: [236, 231, 216],  // texto / trazos neutros
-        oro:   [224, 176, 74],   // experiencia
-        jade:  [111, 191, 158]   // nuevas generaciones
+        fondo: [6, 8, 24],       // espacio profundo
+        hueso: [230, 235, 255],  // luz estelar (texto / trazos neutros)
+        sol:   [255, 196, 107],  // experiencia
+        nova:  [140, 155, 255]   // nuevas generaciones
     },
     particulas: 220,
     fundidoMs: 300               // debe coincidir con transition de "main" en style.css
@@ -65,7 +65,8 @@ let destino = 0;       // slide al que vamos (acumula pulsaciones rápidas)
 let temporizador = null;
 let particulas = [];
 let t = 0;             // tiempo global
-let u = 1;             // unidad de escala: 1 = pantalla de 1000 px en su lado menor
+let u = 1;
+let estrellas = [];  // campo de estrellas fijo con parpadeo suave             // unidad de escala: 1 = pantalla de 1000 px en su lado menor
 
 // ---------- 4. P5: CICLO PRINCIPAL ----------
 function setup() {
@@ -73,6 +74,7 @@ function setup() {
     const cv = createCanvas(windowWidth, windowHeight);
     cv.parent('lienzo');                   // la capa y su z-index viven en CSS
     calcularUnidad();
+    for (let i = 0; i < 170; i++) estrellas.push({ x: random(), y: random(), r: random(0.6, 1.8), f: random(TWO_PI), v: random(0.01, 0.04) });
     precargarImagenes();
     crearPuntosNav();
     configurarEventos();
@@ -85,6 +87,7 @@ function draw() {
     if (escena.estela) background(...C.fondo, escena.estela);
     else background(...C.fondo);
 
+    dibujarEstrellas();
     t += 0.005;
     escena.draw(width / 2, height / 2);
 }
@@ -94,6 +97,15 @@ function windowResized() {
     calcularUnidad();
     ESCENAS[SLIDES[actual].escena].init();   // recoloca partículas al nuevo tamaño
     background(...C.fondo);
+}
+
+function dibujarEstrellas() {
+    noStroke();
+    for (const s of estrellas) {
+        s.f += s.v;
+        fill(...C.hueso, 70 + 90 * (0.5 + 0.5 * sin(s.f)));
+        circle(s.x * width, s.y * height, s.r * u * 1.6);
+    }
 }
 
 function calcularUnidad() { u = min(width, height) / 1000; }
@@ -112,7 +124,7 @@ function reiniciarParticulas() {
         });
     }
 }
-const colorPart = (p, a) => p.joven ? [...C.jade, a] : [...C.oro, a];
+const colorPart = (p, a) => p.joven ? [...C.nova, a] : [...C.sol, a];
 
 // ---------- 6. ESCENAS ----------
 // Cada una: init() prepara el estado, draw(cx, cy) dibuja un fotograma,
@@ -126,7 +138,7 @@ const ESCENAS = {
             noFill();
             strokeWeight(1.6 * u);
             for (let i = 1; i <= 6; i++) {
-                stroke(...(i % 2 ? C.oro : C.jade), 140);
+                stroke(...(i % 2 ? C.sol : C.nova), 140);
                 beginShape();
                 for (let a = 0; a < TWO_PI; a += 0.1) {
                     const n = noise(map(cos(a), -1, 1, 0, 1.5), map(sin(a), -1, 1, 0, 1.5), t * 2 + i);
@@ -205,7 +217,7 @@ const ESCENAS = {
                     const dx = p.x - q.x, dy = p.y - q.y, d2 = dx * dx + dy * dy;
                     if (d2 < lim2) {
                         const pal = noise(i, j, t * 5);
-                        stroke(...(i % 2 ? C.jade : C.oro), (1 - d2 / lim2) * 170 * pal);
+                        stroke(...(i % 2 ? C.nova : C.sol), (1 - d2 / lim2) * 170 * pal);
                         strokeWeight(pal * 1.6 * u);
                         line(p.x, p.y, q.x, q.y);
                     }
@@ -250,8 +262,8 @@ const ESCENAS = {
                 const x2 = -x1, y2 = -y1;
                 if (i % 2 === 0) { stroke(...C.hueso, 40); strokeWeight(1); line(x1, y1, x2, y2); }
                 noStroke();
-                fill(...C.oro, 220);  circle(x1, y1, (6 + sin(a) * 3) * u);
-                fill(...C.jade, 220); circle(x2, y2, (6 + sin(a + PI) * 3) * u);
+                fill(...C.sol, 220);  circle(x1, y1, (6 + sin(a) * 3) * u);
+                fill(...C.nova, 220); circle(x2, y2, (6 + sin(a + PI) * 3) * u);
             }
             pop();
         }
@@ -279,7 +291,7 @@ const ESCENAS = {
                 for (let j = 0; j <= n; j++) {
                     const a = pts[i][j];
                     const m = constrain(map(a.h, 0.3, 0.7, 0, 1), 0, 1);
-                    const c = [lerp(C.jade[0], C.oro[0], m), lerp(C.jade[1], C.oro[1], m), lerp(C.jade[2], C.oro[2], m)];
+                    const c = [lerp(C.nova[0], C.sol[0], m), lerp(C.nova[1], C.sol[1], m), lerp(C.nova[2], C.sol[2], m)];
                     stroke(...c, 150);
                     if (i < n) line(a.sx, a.sy, pts[i + 1][j].sx, pts[i + 1][j].sy);
                     if (j < n) line(a.sx, a.sy, pts[i][j + 1].sx, pts[i][j + 1].sy);
