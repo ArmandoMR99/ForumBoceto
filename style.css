@@ -11,12 +11,11 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #050508; /* Fondo muy oscuro, casi negro */
+    background-color: #030305; /* Aún más oscuro para que resalte el arte */
     color: #ffffff;
     font-family: 'Inter', sans-serif;
 }
 
-/* El lienzo generativo queda estrictamente en el fondo absoluto */
 canvas {
     position: fixed !important;
     top: 0;
@@ -26,7 +25,6 @@ canvas {
     z-index: -1 !important; 
 }
 
-/* La interfaz flota siempre por encima */
 #ui-layer {
     position: fixed !important;
     top: 0; 
@@ -38,7 +36,7 @@ canvas {
     flex-direction: column;
     justify-content: space-between;
     padding: 50px 70px;
-    pointer-events: none; /* Permite que el fondo interactúe si fuera necesario */
+    pointer-events: none; 
 }
 
 header { 
@@ -56,7 +54,7 @@ header {
 #logo-90 { 
     height: 65px; 
     width: auto;
-    filter: brightness(0) invert(1); /* Pone los logos en blanco */
+    filter: brightness(0) invert(1);
 }
 
 #logo-upb { 
@@ -99,7 +97,7 @@ main {
     margin: 0;
     font-weight: 900;
     color: #ffffff !important;
-    text-shadow: 0 4px 25px rgba(0,0,0,1); /* Sombra fuerte para legibilidad perfecta */
+    text-shadow: 0 5px 30px rgba(0,0,0,1); 
 }
 
 .image-column { 
@@ -114,9 +112,10 @@ main {
     max-width: 100%;
     max-height: 52vh;
     object-fit: cover;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.95);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    transition: opacity 0.5s ease;
 }
 
 #qr-container { 
@@ -125,12 +124,12 @@ main {
 }
 
 .qr-box {
-    background: rgba(15, 15, 25, 0.9);
-    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(10, 10, 15, 0.85);
+    border: 1px solid rgba(255,255,255,0.15);
     padding: 20px;
     border-radius: 16px;
     text-align: center;
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px);
 }
 
 .qr-placeholder {
@@ -141,10 +140,10 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 900;
     border-radius: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .qr-box span { 
@@ -168,8 +167,8 @@ footer {
 }
 
 button {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.2);
     color: #ffffff;
     width: 48px; 
     height: 48px;
@@ -179,38 +178,40 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 button:hover { 
     background: #00e5ff; 
     color: #000000;
     border-color: #00e5ff;
-    transform: scale(1.08);
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
 }
 
 #nav-dots { 
     display: flex; 
-    gap: 8px; 
+    gap: 10px; 
 }
 
 .dot { 
-    width: 8px; 
-    height: 8px; 
-    background: rgba(255,255,255,0.3); 
+    width: 6px; 
+    height: 6px; 
+    background: rgba(255,255,255,0.2); 
     border-radius: 50%; 
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
 }
 
 .dot.active { 
     background: #00e5ff; 
-    width: 26px; 
+    width: 30px; 
     border-radius: 6px; 
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
 }
 
 .hints { 
     font-size: 12px; 
-    color: #aaaaaa; 
+    color: #777777; 
     font-weight: 700;
 }
