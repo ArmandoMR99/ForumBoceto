@@ -11,12 +11,9 @@
     <div id="ui-layer">
         <header>
             <div class="logos">
-                <!-- SVG de la UPB integrado para evitar errores de archivo -->
-                <svg id="logo-main" viewBox="0 0 400 120" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#ffffff" d="M20 10 h15 v90 h-15 z M45 10 h15 v90 h-15 z M70 10 h15 v90 h-15 z"/>
-                    <text x="100" y="55" fill="#ffffff" font-family="Inter, sans-serif" font-size="32" font-weight="900" letter-spacing="2">UPB</text>
-                    <text x="100" y="85" fill="#888888" font-family="Inter, sans-serif" font-size="16" letter-spacing="4">FÓRUM • 90 AÑOS</text>
-                </svg>
+                <!-- Usando codificación %20 para evitar fallos con los espacios en el nombre -->
+                <img src="assets/Logo%2090.png" alt="90 Años UPB" id="logo-90">
+                <img src="assets/Logo%20UPB.png" alt="UPB" id="logo-upb">
             </div>
             <div class="counter" id="slide-counter">01 / 13</div>
         </header>
@@ -50,7 +47,7 @@
                 <button id="btn-next" type="button">&#8594;</button>
             </div>
             <div class="hints">
-                Teclas: Espacio / &#8594; avanzar • &#8592; volver • F Pantalla Completa • Mueve el mouse para interactuar
+                Teclas: Espacio / &#8594; avanzar • &#8592; volver • F Pantalla Completa
             </div>
         </footer>
     </div>
