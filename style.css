@@ -1,15 +1,15 @@
-/* ===== Paleta (mantener en sincronía con CONFIG.paleta en sketch.js) =====
-   fondo  #0d1815  bosque nocturno
-   texto  #ece7d8  hueso
-   oro    #e0b04a  experiencia
-   jade   #6fbf9e  nuevas generaciones
+/* ===== Paleta cósmica (mantener en sincronía con CONFIG.paleta en sketch.js) =====
+   fondo   #060818  espacio profundo
+   texto   #e6ebff  luz estelar
+   sol     #ffc46b  experiencia (estrella dorada)
+   nova    #8c9bff  nuevas generaciones (azul ultravioleta)
 */
 :root {
-    --fondo: #0d1815;
-    --texto: #ece7d8;
-    --oro: #e0b04a;
-    --jade: #6fbf9e;
-    --tenue: rgba(236, 231, 216, 0.55);
+    --fondo: #060818;
+    --texto: #e6ebff;
+    --sol: #ffc46b;
+    --nova: #8c9bff;
+    --tenue: rgba(230, 235, 255, 0.55);
     --margen-x: clamp(24px, 4.5vw, 90px);
     --margen-y: clamp(20px, 3.5vw, 60px);
 }
@@ -29,6 +29,18 @@ html, body {
 /* ---------- CAPAS ---------- */
 #lienzo { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 #lienzo canvas { display: block; }
+#lienzo::after {
+    content: "";
+    position: absolute;
+    inset: -15%;
+    pointer-events: none;
+    background:
+        radial-gradient(40% 45% at 78% 22%, rgba(110, 90, 255, 0.20), transparent 70%),
+        radial-gradient(45% 50% at 18% 85%, rgba(255, 150, 90, 0.10), transparent 70%),
+        radial-gradient(35% 40% at 55% 55%, rgba(80, 120, 255, 0.10), transparent 70%);
+    animation: deriva 60s ease-in-out infinite alternate;
+}
+@keyframes deriva { to { transform: translate3d(-4%, 3%, 0) scale(1.08); } }
 
 #ui-layer {
     position: fixed;
@@ -46,17 +58,26 @@ html, body {
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: linear-gradient(90deg, rgba(13, 24, 21, 0.82) 0%, rgba(13, 24, 21, 0.45) 45%, rgba(13, 24, 21, 0) 70%);
+    background: linear-gradient(90deg, rgba(6, 8, 24, 0.82) 0%, rgba(6, 8, 24, 0.45) 45%, rgba(6, 8, 24, 0) 70%);
 }
 
 header, footer { display: flex; justify-content: space-between; align-items: center; }
 footer { pointer-events: auto; }
 
-.logos { display: flex; align-items: center; gap: clamp(14px, 1.8vw, 28px); }
-#logo-90  { height: clamp(40px, 4.4vw, 76px); width: auto; filter: brightness(0) invert(1); }
-#logo-upb { height: clamp(30px, 3.2vw, 56px); width: auto; filter: brightness(0) invert(1); }
+.logos {
+    display: flex;
+    align-items: center;
+    gap: clamp(14px, 1.6vw, 26px);
+    padding: clamp(8px, 0.9vw, 14px) clamp(14px, 1.4vw, 24px);
+    background: #f4f6ff;
+    border-radius: 10px;
+    box-shadow: 0 0 40px rgba(140, 155, 255, 0.25);
+}
+#logo-90  { height: clamp(40px, 4.4vw, 76px); width: auto; display: block; }
+#logo-upb { height: clamp(30px, 3.2vw, 56px); width: auto; display: block;
+            padding-left: clamp(14px, 1.6vw, 26px); border-left: 1px solid rgba(6, 8, 24, 0.18); }
 
-.counter { font-size: clamp(14px, 1.2vw, 20px); font-weight: 600; letter-spacing: 0.12em; color: var(--oro); }
+.counter { font-size: clamp(14px, 1.2vw, 20px); font-weight: 600; letter-spacing: 0.12em; color: var(--sol); }
 
 /* ---------- CONTENIDO (con fundido entre slides) ---------- */
 main {
@@ -76,16 +97,16 @@ main.saliendo { opacity: 0; }
     font-size: clamp(14px, 1.3vw, 22px);
     font-weight: 600;
     letter-spacing: 0.06em;
-    color: var(--jade);
+    color: var(--nova);
 }
 
 #slide-title {
     margin: 0;
-    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
     font-weight: 700;
     font-size: clamp(2rem, 4.2vw, 5rem);
     line-height: 1.12;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
     color: var(--texto);
     text-wrap: balance;
 }
@@ -103,7 +124,7 @@ main.saliendo { opacity: 0; }
     aspect-ratio: 4 / 3;
     object-fit: cover;
     border-radius: 4px;
-    outline: 1px solid rgba(236, 231, 216, 0.18);
+    outline: 1px solid rgba(230, 235, 255, 0.18);
     outline-offset: 10px;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
@@ -112,8 +133,8 @@ main.saliendo { opacity: 0; }
 /* ---------- QR ---------- */
 #qr-container { display: flex; gap: 20px; }
 .qr-box {
-    background: rgba(13, 24, 21, 0.9);
-    border: 1px solid rgba(236, 231, 216, 0.2);
+    background: rgba(6, 8, 24, 0.9);
+    border: 1px solid rgba(230, 235, 255, 0.2);
     padding: 18px;
     border-radius: 6px;
     text-align: center;
@@ -139,7 +160,7 @@ main.saliendo { opacity: 0; }
 .nav-btn {
     width: 46px; height: 46px;
     border-radius: 50%;
-    border: 1px solid rgba(236, 231, 216, 0.3);
+    border: 1px solid rgba(230, 235, 255, 0.3);
     background: transparent;
     color: var(--texto);
     font-size: 18px;
@@ -147,20 +168,20 @@ main.saliendo { opacity: 0; }
     display: flex; align-items: center; justify-content: center;
     transition: background 0.25s, color 0.25s, border-color 0.25s;
 }
-.nav-btn:hover { background: var(--oro); color: var(--fondo); border-color: var(--oro); }
+.nav-btn:hover { background: var(--sol); color: var(--fondo); border-color: var(--sol); }
 
 #nav-dots { display: flex; gap: 10px; align-items: center; }
 .dot {
     width: 7px; height: 7px;
     padding: 0; border: 0;
     border-radius: 4px;
-    background: rgba(236, 231, 216, 0.25);
+    background: rgba(230, 235, 255, 0.25);
     cursor: pointer;
     transition: width 0.35s ease, background 0.35s ease;
 }
-.dot.active { width: 28px; background: var(--oro); }
+.dot.active { width: 28px; background: var(--sol); }
 
-.nav-btn:focus-visible, .dot:focus-visible { outline: 2px solid var(--jade); outline-offset: 3px; }
+.nav-btn:focus-visible, .dot:focus-visible { outline: 2px solid var(--nova); outline-offset: 3px; }
 
 .hints { font-size: clamp(11px, 0.9vw, 14px); color: var(--tenue); }
 
@@ -173,4 +194,5 @@ main.saliendo { opacity: 0; }
 
 @media (prefers-reduced-motion: reduce) {
     main, .dot { transition: none; }
+    #lienzo::after { animation: none; }
 }
