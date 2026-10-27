@@ -1,162 +1,153 @@
-const slides = [
-  "",
-  "RELEVO GERACIONAL: A VANTAGEM QUE NINGUÉM ESTÁ APROVEITANDO\n@centrodeeventosupb", // Slide 1
-  "um grande auditório apenas para realizar formaturas?", // Slide 2[cite: 2]
-  "Os eventos não chegaram à Universidade.\nA Universidade decidiu encontrar-se com o mundo.", // Slide 3[cite: 2]
-  "Academia + Indústria + Cidade", // Slide 4[cite: 2]
-  "Os eventos nunca foram o objetivo.\nO impacto sim.", // Slide 5[cite: 2]
-  "Um evento traz pessoas.\nUma comunidade traz transformação.", // Slide 6[cite: 2]
-  "O talento cresce na velocidade da confiança.", // Slide 7[cite: 2]
-  "A experiência constrói o caminho.\nAs novas gerações descobrem novas rotas.", // Slide 8[cite: 2]
-  "Uma visão. Duas gerações.", // Slide 9[cite: 2]
-  "O crescimento não ocorre quando uma geração substitui a outra.\nOcorre quando trabalham juntas.", // Slide 10[cite: 2]
-  "Os jovens não são o futuro.\nSão o presente que muitas organizações ainda não veem.", // Slide 11[cite: 2]
-  "O futuro não se herda. Se constrói.", // Slide 12[cite: 2]
-  "Obrigado\nQR Memórias" // Slide 13[cite: 2]
+const slidesData = [
+    { title: "Relevo generacional: la ventaja que nadie está aprovechando.", sub: "INTRODUCCIÓN", img: "" }, // 1
+    { title: "¿un gran auditorio solo para hacer grados?", sub: "EL PARADIGMA", img: "assets/FOTO 1.jpg" }, // 2[cite: 18]
+    { title: "Los eventos no llegaron a la Universidad. La Universidad decidió encontrarse con el mundo.", sub: "TRANSICIÓN", img: "" }, // 3
+    { title: "Academia + Industria + Ciudad", sub: "CONVERGENCIA", img: "assets/FÓRUM JPG  (5).jpg" }, // 4[cite: 17]
+    { title: "Los eventos nunca fueron el objetivo. El impacto sí.", sub: "PROPÓSITO", img: "assets/FOTO 3.jpg" }, // 5[cite: 19]
+    { title: "Un evento trae personas. Una comunidad trae transformación.", sub: "COMUNIDAD", img: "" }, // 6
+    { title: "El talento crece a la velocidad de la confianza.", sub: "CONFIANZA", img: "" }, // 7
+    { title: "La experiencia construye el camino. Las nuevas generaciones descubren nuevas rutas.", sub: "RUTAS", img: "assets/IMG_1819 (2).jpg" }, // 8[cite: 20]
+    { title: "Una visión. Dos generaciones.", sub: "INTEGRACIÓN", img: "" }, // 9
+    { title: "El crecimiento no ocurre cuando una generación reemplaza a otra. Ocurre cuando trabajan juntas.", sub: "TRABAJO CONJUNTO", img: "assets/FÓRUM JPG  (2).jpg" }, // 10[cite: 16]
+    { title: "Los jóvenes no son el futuro. Son el presente que muchas organizaciones aún no ven.", sub: "PRESENTE", img: "" }, // 11
+    { title: "El futuro no se hereda. Se construye.", sub: "FUTURO", img: "assets/MG_7563.jpg" }, // 12[cite: 21]
+    { title: "@centrodeeventosupb", sub: "CONTINUIDAD", img: "qr" } // 13
 ];
 
-let slideActual = 1;
-let nodos = [];
-// Variables de control de comportamiento
-let fuerzaRepulsion = 1;
-let distanciaConexion = 100;
-let rigidez = 0.01;
+let slideActual = 0;
+let particulas = [];
+let orbitaGlobal = 0;
+let dispersion = 1;
+let velocidadGlobal = 0.005;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  // Crear nodos con diferentes "edades/generaciones"
-  for (let i = 0; i < 120; i++) {
-    nodos.push(new Nodo(random(width), random(height), i % 3 === 0)); 
-    // 1/3 son "experiencia" (nodos grandes), 2/3 son "juventud" (nodos ágiles)
-  }
-  actualizarSlide();
+    let canvas = createCanvas(windowWidth, windowHeight);
+    canvas.position(0, 0);
+    
+    for(let i = 0; i < 500; i++) {
+        particulas.push(new Particula());
+    }
+    
+    crearPuntosNav();
+    actualizarUI();
 }
 
 function draw() {
-  background(17, 17, 17, 50); // Rastro sutil
-  
-  // Dibujar conexiones (Tensión y Vínculos)
-  for (let i = 0; i < nodos.length; i++) {
-    for (let j = i + 1; j < nodos.length; j++) {
-      let d = dist(nodos[i].pos.x, nodos[i].pos.y, nodos[j].pos.x, nodos[j].pos.y);
-      if (d < distanciaConexion) {
-        stroke(255, map(d, 0, distanciaConexion, 255, 0));
-        strokeWeight(rigidez > 0.05 ? 2 : 0.5); // Conexiones rígidas son más gruesas
-        line(nodos[i].pos.x, nodos[i].pos.y, nodos[j].pos.x, nodos[j].pos.y);
-        
-        // Aplicar fuerza elástica si hay conexión
-        let fuerza = p5.Vector.sub(nodos[j].pos, nodos[i].pos);
-        fuerza.mult(rigidez);
-        nodos[i].aplicarFuerza(fuerza);
-        fuerza.mult(-1);
-        nodos[j].aplicarFuerza(fuerza);
-      }
-    }
-  }
-
-  // Actualizar nodos
-  for (let nodo of nodos) {
-    nodo.comportamiento(fuerzaRepulsion);
-    nodo.update();
-    nodo.display();
-  }
-}
-
-class Nodo {
-  constructor(x, y, esExperiencia) {
-    this.pos = createVector(x, y);
-    this.vel = p5.Vector.random2D();
-    this.acc = createVector(0, 0);
-    this.esExperiencia = esExperiencia;
-    this.masa = esExperiencia ? 4 : 1.5;
-    this.radio = esExperiencia ? 8 : 3;
-    this.origen = createVector(x, y); // Para formaciones rígidas
-  }
-
-  aplicarFuerza(fuerza) {
-    let f = p5.Vector.div(fuerza, this.masa);
-    this.acc.add(f);
-  }
-
-  comportamiento(repulsion) {
-    // Ruido perlin para movimiento orgánico
-    let angle = noise(this.pos.x * 0.01, this.pos.y * 0.01, frameCount * 0.01) * TWO_PI;
-    let fuerzaRuido = p5.Vector.fromAngle(angle).mult(0.1);
+    background(5, 5, 5, 80);
     
-    // Si estamos en un slide rígido, forzar hacia su origen
-    if (rigidez > 0.05) {
-      let regreso = p5.Vector.sub(this.origen, this.pos).mult(0.05);
-      this.aplicarFuerza(regreso);
-    } else {
-      this.aplicarFuerza(fuerzaRuido);
+    translate(width * 0.5, height * 0.5);
+    
+    orbitaGlobal += velocidadGlobal * 0.5;
+    rotate(orbitaGlobal);
+
+    for (let p of particulas) {
+        p.actualizar(dispersion, velocidadGlobal);
+        p.dibujar();
+    }
+}
+
+class Particula {
+    constructor() {
+        this.radioBase = random(20, windowWidth * 0.7);
+        this.angulo = random(TWO_PI);
+        this.velocidad = random(0.001, 0.012);
+        this.zOffset = random(-80, 80);
+        this.grosor = random(0.5, 2.5);
     }
 
-    // Repulsión de los bordes
-    if (this.pos.x < 50) this.aplicarFuerza(createVector(repulsion, 0));
-    if (this.pos.x > width - 50) this.aplicarFuerza(createVector(-repulsion, 0));
-    if (this.pos.y < 50) this.aplicarFuerza(createVector(0, repulsion));
-    if (this.pos.y > height - 50) this.aplicarFuerza(createVector(0, -repulsion));
-  }
+    actualizar(dispersionAct, velGlobal) {
+        this.angulo += this.velocidad + velGlobal;
+        this.radioActual = this.radioBase * dispersionAct;
+    }
 
-  update() {
-    this.vel.add(this.acc);
-    this.vel.limit(this.esExperiencia ? 1 : 3); // Experiencia es más lenta y estable
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-  }
-
-  display() {
-    noStroke();
-    fill(this.esExperiencia ? '#ff4081' : '#00e5ff'); // Colores Fórum/Future Leaders
-    circle(this.pos.x, this.pos.y, this.radio * 2);
-  }
+    dibujar() {
+        let x = cos(this.angulo) * this.radioActual;
+        let y = sin(this.angulo) * (this.radioActual * 0.25) + this.zOffset; 
+        
+        let opacidad = map(this.radioActual, 20, windowWidth*0.7, 255, 0);
+        stroke(255, 255, 255, opacidad);
+        strokeWeight(this.grosor);
+        point(x, y);
+    }
 }
 
-// Navegación
+function actualizarUI() {
+    let data = slidesData[slideActual];
+    
+    document.getElementById('slide-title').innerText = data.title;
+    document.getElementById('slide-subtitle').innerText = data.sub;
+    document.getElementById('slide-counter').innerText = nf(slideActual + 1, 2) + " / " + slidesData.length;
+    
+    let imgEl = document.getElementById('slide-image');
+    let qrEl = document.getElementById('qr-container');
+    
+    if (data.img === "qr") {
+        imgEl.style.display = "none";
+        qrEl.style.display = "flex";
+    } else if (data.img !== "") {
+        imgEl.src = data.img;
+        imgEl.style.display = "block";
+        qrEl.style.display = "none";
+    } else {
+        imgEl.style.display = "none";
+        qrEl.style.display = "none";
+    }
+
+    let dots = document.querySelectorAll('.dot');
+    dots.forEach((dot, index) => {
+        dot.className = index === slideActual ? 'dot active' : 'dot';
+    });
+
+    if (slideActual === 1) { 
+        dispersion = 1.8; 
+        velocidadGlobal = 0.001; 
+    } else if (slideActual === 3) { 
+        dispersion = 0.9; 
+        velocidadGlobal = 0.008;
+    } else if (slideActual === 7) { 
+        dispersion = 1.3; 
+        velocidadGlobal = 0.025; 
+    } else if (slideActual === 9) {
+        dispersion = 0.6;
+        velocidadGlobal = 0.015;
+    } else if (slideActual === 11) { 
+        dispersion = 0.4; 
+        velocidadGlobal = 0.01;
+    } else {
+        dispersion = lerp(dispersion, 1.0, 0.1);
+        velocidadGlobal = 0.005;
+    }
+}
+
 function keyPressed() {
-  if (keyCode === RIGHT_ARROW && slideActual < slides.length - 1) {
-    slideActual++;
-    actualizarSlide();
-  } else if (keyCode === LEFT_ARROW && slideActual > 1) {
-    slideActual--;
-    actualizarSlide();
-  }
+    if ((keyCode === RIGHT_ARROW || keyCode === 32) && slideActual < slidesData.length - 1) {
+        slideActual++;
+        actualizarUI();
+    } else if (keyCode === LEFT_ARROW && slideActual > 0) {
+        slideActual--;
+        actualizarUI();
+    } else if (key === 'f' || key === 'F') {
+        let fs = fullscreen();
+        fullscreen(!fs);
+    }
 }
 
-function actualizarSlide() {
-  document.getElementById('slide-text').innerText = slides[slideActual];
-  
-  // Cambios estructurales según el discurso
-  switch(slideActual) {
-    case 2:
-      // "¿Un gran auditorio...?"[cite: 2]: Estructura rígida, estática, aislada.
-      distanciaConexion = 50;
-      rigidez = 0.1; // Alta rigidez
-      break;
-    case 4:
-      // "Academia + Industria + Ciudad"[cite: 2]: Se rompe la rigidez, comienzan a buscarse.
-      distanciaConexion = 120;
-      rigidez = 0.005; // Fluidez
-      break;
-    case 7:
-      // "Velocidad de la confianza"[cite: 2]: Vínculos fuertes y extensos.
-      distanciaConexion = 200;
-      rigidez = 0.01;
-      break;
-    case 10:
-      // "Ocurre cuando trabajan juntas"[cite: 2]: Las generaciones se atraen directamente.
-      distanciaConexion = 150;
-      rigidez = 0.02;
-      for (let n of nodos) n.vel.mult(2); // Inyección de energía
-      break;
-    case 12:
-      // "El futuro... se constrói"[cite: 2]: La red se consolida.
-      distanciaConexion = 250;
-      rigidez = 0.05;
-      break;
-  }
+document.getElementById('btn-next').addEventListener('click', () => {
+    if(slideActual < slidesData.length - 1) { slideActual++; actualizarUI(); }
+});
+document.getElementById('btn-prev').addEventListener('click', () => {
+    if(slideActual > 0) { slideActual--; actualizarUI(); }
+});
+
+function crearPuntosNav() {
+    let container = document.getElementById('nav-dots');
+    for (let i = 0; i < slidesData.length; i++) {
+        let dot = document.createElement('div');
+        dot.className = 'dot';
+        container.appendChild(dot);
+    }
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+    resizeCanvas(windowWidth, windowHeight);
 }
